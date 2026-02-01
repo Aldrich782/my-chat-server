@@ -148,10 +148,8 @@ wss.on('connection', (ws, req) => {
         if (heartbeatTimer) clearTimeout(heartbeatTimer);
         
         if (currentUserId) {
-            onlineUsers.delete(currentUserId);
-            console.log(`[离线] 用户离线: ${currentUserId} (在线: ${onlineUsers.size})`);
-        } else {
-            console.log('[断开] 未注册的客户端断开连接');
+            // onlineUsers.delete(currentUserId); // <-- 把这一行注释掉，或者删掉
+            console.log(`[保留] 用户 ${currentUserId} 暂时离线，但保留数据`);
         }
     });
     
