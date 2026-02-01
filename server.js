@@ -52,9 +52,8 @@ const server = http.createServer((req, res) => {
 // 创建WebSocket服务器
 const wss = new WebSocket.Server({ 
     server,
-    // 配置WebSocket选项
-    perMessageDeflate: false, // 禁用压缩以提高性能
-    maxPayload: 100 * 1024 // 最大消息100KB
+    perMessageDeflate: false, 
+    maxPayload: 5 * 1024 * 1024 // 修改为 5MB，足够应付握手和普通聊天了
 });
 
 // 存储在线用户
