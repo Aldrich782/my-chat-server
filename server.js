@@ -193,12 +193,14 @@ wss.on('connection', (ws, req) => {
             });
         }
         
-        // 检查ID是否已被占用
+        // 检查ID是否已被占用，如果占用则替换（允许重连）
         if (onlineUsers.has(userId)) {
-            return sendToClient(ws, {
-                type: 'register_error',
-                error: '该ID已被使用，请更换其他ID'
-            });
+            console.log(`[替换] 用户 ${userId} 重新连接，清理旧连接`);
+            const oldUser = onlineUsers.get(userId);
+            if (oldUser.ws && oldUser.ws.readyState === WebSocket.OPEN) {
+                oldUser.ws.close(); // 关闭旧连接
+            }
+            onlineUsers.delete(userId); // 删除旧记录
         }
         
         // 注册用户
